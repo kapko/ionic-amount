@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
+import { Component, ViewChild } from '@angular/core';
+import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { CommonProvider } from '../../providers/common/common';
 import { PostsProvider } from '../../providers/posts/posts';
-import { Subscription } from 'rxjs';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
+import { IPost } from '../../models/post.model';
+import { Navbar } from 'ionic-angular';
 
 @IonicPage()
 @Component({
@@ -12,6 +13,7 @@ import { BarcodeScanner } from '@ionic-native/barcode-scanner';
     templateUrl: 'edit-post.html',
 })
 export class EditPostPage {
+    @ViewChild(Navbar) navBar: Navbar;
 
     public barcodeData: any;
 
@@ -23,17 +25,19 @@ export class EditPostPage {
 
     public note: string;
 
-    private scanSub: Subscription;
+    private data: IPost;
 
     constructor(
         private common: CommonProvider,
         private fb: FormBuilder,
         private navController: NavController,
         private navParams: NavParams,
-        // private qrScanner: QRScanner,
+        private viewCtrl: ViewController,
         private barcodeScanner: BarcodeScanner,
         private postService: PostsProvider,
     ) {
+        this.data = (this.navParams.data && this.navParams.data._id) ? this.navParams.data : null;
+
         this.form = this.fb.group({
             qrcode: [null],
             title: [null, [Validators.required]],
@@ -42,71 +46,77 @@ export class EditPostPage {
             soldAmount: [null, [Validators.required]],
             created: [Date.now()],
         });
+
+        if (this.data) {
+            this.setFormData(this.navParams.data);
+        }
     }
 
+    ionViewDidLoad() {
+        this.viewCtrl.setBackButtonText('');
 
-    ngOnInit() {
+        this.navBar.backButtonClick = (e: UIEvent) => {
+            this.navController.getPrevious().data.update = true;
+
+            this.navController.pop();
+        };
+    }
+
+    private setFormData(data: IPost): void {
+        this.form.get('qrcode').setValue(data.qrcode);
+        this.form.get('title').setValue(data.title);
+        this.form.get('price').setValue(data.price);
+        this.form.get('amount').setValue(data.amount);
+        this.form.get('soldAmount').setValue(data.soldAmount);
     }
 
     public onSubmit(): void {
-        console.log(this.form.value);
         if (this.form.valid) {
-            if (this.paramsId) {
-                // this.updatePost();
+            if (this.data) {
+                this.updatePost();
             } else {
-                // this.createNew();
+                this.createNew();
             }
         }
     }
 
-    scan() {
-        this.barcodeScanner.scan().then((barcodeData) => {
-            this.barcodeData = barcodeData;
-            console.log(barcodeData.text);
-
-            this.form.get('qrcode').setValue(barcodeData.text);
-
-        }, (err) => {
-          console.log(err);
-        });
+    public showScanner() {
+        this.barcodeScanner.scan()
+            .then(
+                (b) => this.form.get('qrcode').setValue(b.text),
+                (err) => console.log(err)
+            )
+            .catch(err => console.log(err));
       }
 
-    // private updatePost(): void {
-    //     this.postService
-    //         .updatePost(this.paramsId, this.form.value)
-    //         .subscribe(
-    //             res => {
-    //                 if (res['errors']) {
-    //                     this.note = res['message'];
-    //                 } else {
-    //                     this.router.navigate(['/posts']);
-    //                 }
-    //             },
-    //             err => {
-    //                 this.note = err.message;
-    //             }
-    //         )
-    // }
+    private updatePost(): void {
+        this.postService
+            .updatePost(this.data._id, this.form.value)
+            .subscribe(
+                res => {
+                    if (res['errors']) {
+                        this.common.showToast(res['message']);
+                    } else {
+                        this.common.showToast('Продукт обновлен!');
+                    }
+                },
+                err => this.common.showToast(err.message)
+            );
+    }
 
-    // private createNew(): void {
-    //     this.postService
-    //         .createPost(this.form.value)
-    //         .subscribe(
-    //             res => {
-    //                 if (res['errors']) {
-    //                     this.note = res['message'];
-    //                 } else {
-    //                     this.router.navigate(['/posts']);
-    //                 }
-    //             },
-    //             err => {
-    //                 this.note = err.message;
-    //             }
-    //         );
-    // }
-
-    public hideNote(): void {
-        this.note = null;
+    private createNew(): void {
+        this.postService
+            .createPost(this.form.value)
+            .subscribe(
+                res => {
+                    if (res['errors']) {
+                        this.common.showToast(res['message']);
+                    } else {
+                        this.common.showToast('Продукт создан!');
+                    }
+                },
+                err => this.common.showToast(err.message)
+            );
     }
 
 }

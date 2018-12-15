@@ -32,7 +32,7 @@ import { CommonProvider } from '../providers/common/common';
         { provide: HTTP_INTERCEPTORS, multi: true, useClass: Interceptor },
         AuthProvider,
         PostsProvider,
-    CommonProvider
+        CommonProvider
     ]
 })
 export class AppModule { }

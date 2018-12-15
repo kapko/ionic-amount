@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { FormGroup, AbstractControl } from '@angular/forms';
+import { ToastController } from 'ionic-angular';
 
 export interface ErrorInterface {
     controlName: string;
@@ -13,8 +14,7 @@ export interface ErrorInterface {
 @Injectable()
 export class CommonProvider {
 
-    constructor(public http: HttpClient) {
-        console.log('Hello CommonProvider Provider');
+    constructor(public http: HttpClient, private toastCtrl: ToastController) {
     }
 
     public showError(errors: ErrorInterface) {
@@ -26,6 +26,15 @@ export class CommonProvider {
             control.dirty || control.touched || errors.submitted : false;
 
         return showCondition && (errors.error ? control.errors[errors.error] : true);
+    }
+
+    public showToast(message: string): void {
+        this.toastCtrl
+            .create({
+                message,
+                duration: 3000
+            })
+            .present();
     }
 
 }

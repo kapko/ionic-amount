@@ -6,8 +6,7 @@
 
 <ion-content padding>
     <form class="example-form" (submit)="onSubmit()" [formGroup]="form">
-        <!-- <span mat-raised-button color="primary" (click)="showCamera()">Снять QR-code</span> -->
-        <span ion-button color="primary" full (click)="scan()">Start Scan</span>
+        <span ion-button color="primary" full (click)="showScanner()">Снять QR-code</span>
 
         <mat-form-field class="example-full-width" *ngIf="form.get('qrcode').value">
             <input formControlName="qrcode" matInput placeholder="QR-code" type="tel">
@@ -29,14 +28,13 @@
             <input #soldAmount formControlName="soldAmount" matInput placeholder="Продано шт. ед." type="tel">
         </mat-form-field>
 
-        <button *ngIf="!showSpeener; else spinner" type="submit" mat-raised-button color="primary">Создать</button>
+        <button *ngIf="!showSpeener; else spinner" type="submit" mat-raised-button color="primary">{{data ? 'Обновить' : 'Создать'}}</button>
 
         <ng-template #spinner>
             <button mat-raised-button color="primary">
                 <ion-spinner color="light" name="bubbles"></ion-spinner>
             </button>
         </ng-template>
-
 
         <h5>Общая стоимость: {{ price?.value * amount?.value }}</h5>
         <h5>Осталось единиц: {{ amount?.value - soldAmount?.value }}</h5>
