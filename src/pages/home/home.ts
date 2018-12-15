@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ItemSliding, AlertController } from 'ionic-angular';
 import { PostsProvider } from '../../providers/posts/posts';
-import { Observable } from 'rxjs';
 import { IPost } from '../../models/post.model';
 import { CommonProvider } from '../../providers/common/common';
+import { take } from 'rxjs/operators';
 
 @IonicPage()
 @Component({
@@ -12,7 +12,7 @@ import { CommonProvider } from '../../providers/common/common';
 })
 export class HomePage {
 
-    public posts$: Observable<IPost>;
+    public posts: IPost[];
 
     constructor(
         public navCtrl: NavController,
@@ -21,7 +21,23 @@ export class HomePage {
         public navParams: NavParams,
         private postService: PostsProvider
     ) {
-        this.posts$ = this.postService.getPosts();
+        this.loadPosts();
+        this.commonService
+            .updateHomePage
+            .subscribe(isUpdate => {
+                if (isUpdate) {
+                    this.loadPosts();
+                };
+            });
+    }
+
+    private loadPosts(): void {
+        this.postService
+            .getPosts()
+            .pipe(take(1))
+            .subscribe(posts => {
+                this.posts = posts;
+            });
     }
 
     private deleteEvent(_id: string): void {
@@ -34,7 +50,6 @@ export class HomePage {
     }
 
     public searchEvent(event): void {
-        console.log(event.target.value);
     }
 
     public newPost(): void {

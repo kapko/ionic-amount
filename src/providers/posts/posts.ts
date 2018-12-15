@@ -13,8 +13,8 @@ export class PostsProvider {
         this.api = env.api;
     }
 
-    public getPosts(): Observable<IPost> {
-        return this.http.get<IPost>(`${this.api}posts`);
+    public getPosts(): Observable<IPost[]> {
+        return this.http.get<IPost[]>(`${this.api}posts`);
     }
 
     public createPost(post: IPost): Observable<IPost> {

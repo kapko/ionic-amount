@@ -1,11 +1,10 @@
 import { Component, ViewChild } from '@angular/core';
-import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ViewController, Navbar } from 'ionic-angular';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { CommonProvider } from '../../providers/common/common';
 import { PostsProvider } from '../../providers/posts/posts';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import { IPost } from '../../models/post.model';
-import { Navbar } from 'ionic-angular';
 
 @IonicPage()
 @Component({
@@ -54,12 +53,6 @@ export class EditPostPage {
 
     ionViewDidLoad() {
         this.viewCtrl.setBackButtonText('');
-
-        this.navBar.backButtonClick = (e: UIEvent) => {
-            this.navController.getPrevious().data.update = true;
-
-            this.navController.pop();
-        };
     }
 
     private setFormData(data: IPost): void {
@@ -97,7 +90,8 @@ export class EditPostPage {
                     if (res['errors']) {
                         this.common.showToast(res['message']);
                     } else {
-                        this.common.showToast('Продукт обновлен!');
+                        this.navController.pop();
+                        this.common.updateHomePage.next(true);
                     }
                 },
                 err => this.common.showToast(err.message)
@@ -112,7 +106,8 @@ export class EditPostPage {
                     if (res['errors']) {
                         this.common.showToast(res['message']);
                     } else {
-                        this.common.showToast('Продукт создан!');
+                        this.navController.pop();
+                        this.common.updateHomePage.next(true);
                     }
                 },
                 err => this.common.showToast(err.message)

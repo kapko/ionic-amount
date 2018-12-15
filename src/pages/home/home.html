@@ -3,7 +3,7 @@
     <ion-navbar color="primary">
         <ion-title text-center>Продукты</ion-title>
         <ion-icon
-            color="secondary"
+            color="light"
             (click)="newPost()"
             class="add-new"
             name="add-circle"></ion-icon>
@@ -12,22 +12,23 @@
 </ion-header>
 
 <ion-content padding>
-    <ion-searchbar (ionInput)="searchEvent($event)"></ion-searchbar>
+    <!-- <ion-searchbar (ionInput)="searchEvent($event)"></ion-searchbar> -->
 
-    <div text-center *ngIf="!(posts$ | async)">
+    <div text-center *ngIf="!posts?.length">
         <ion-spinner color="primary" name="bubbles"></ion-spinner>
     </div>
 
     <ion-list>
-        <ion-item-sliding #slidingItem *ngFor="let post of posts$ | async">
+        <ion-item-sliding #slidingItem *ngFor="let post of posts">
             <ion-item>
-                <h2>{{post.title}}</h2>
-                <h3>
-                    <ion-icon name="pricetag"></ion-icon> {{post.price}}
-                </h3>
-                <p>
-                    <ion-icon name="calendar"></ion-icon> {{post.created | date : 'dd.MM.yyyy'}}
-                </p>
+                <h2 text-center>{{post.title}}</h2>
+                <h4><p><b>Цена:</b> {{post.price}} <b>Кол-во:</b> {{post.amount}}</p></h4>
+                <h3><p><b>Продано eд:</b> {{post.soldAmount}}</p></h3>
+                <h3><p><b>Осталось в ед.:</b> {{post.amount - post.soldAmount}}</p></h3>
+                <h3><b>Общ. стоимость:</b> {{post.price * post.amount}}</h3>
+                <h3><b>Продано в сомах:</b> {{post.price * post.soldAmount}}</h3>
+                <h3><b>Осталось в сомах:</b> {{post.price * (post.amount - post.soldAmount)}}</h3>
+                <h3><p><i>Дата: {{post.created | date : 'dd.MM.yyyy'}}</i> </p></h3>
             </ion-item>
 
             <ion-item-options side="right">
