@@ -6,14 +6,15 @@
 
 <ion-content padding>
     <form class="example-form" (submit)="onSubmit()" [formGroup]="form">
-        <span mat-raised-button color="primary">Снять QR-code</span>
+        <!-- <span mat-raised-button color="primary" (click)="showCamera()">Снять QR-code</span> -->
+        <span ion-button color="primary" full (click)="scan()">Start Scan</span>
 
         <mat-form-field class="example-full-width" *ngIf="form.get('qrcode').value">
             <input formControlName="qrcode" matInput placeholder="QR-code" type="tel">
         </mat-form-field>
 
         <mat-form-field class="example-full-width">
-            <input formControlName="title" matInput placeholder="Название" type="tel">
+            <input formControlName="title" matInput placeholder="Название" type="text">
         </mat-form-field>
 
         <mat-form-field class="example-full-width">

@@ -1,5 +1,7 @@
 {
   "name": "Ionic3AngularMaterial",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "ionic-angular"
 }

@@ -5,6 +5,7 @@ import {
   MatInputModule,
   MatButtonModule,
 } from '@angular/material';
+import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 
 @NgModule({
   declarations: [
@@ -15,5 +16,8 @@ import {
     MatButtonModule,
     IonicPageModule.forChild(EditPostPage),
   ],
+  providers: [
+    BarcodeScanner,
+  ]
 })
 export class EditPostPageModule {}

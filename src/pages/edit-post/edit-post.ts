@@ -3,6 +3,8 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { CommonProvider } from '../../providers/common/common';
 import { PostsProvider } from '../../providers/posts/posts';
+import { Subscription } from 'rxjs';
+import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 
 @IonicPage()
 @Component({
@@ -10,6 +12,8 @@ import { PostsProvider } from '../../providers/posts/posts';
     templateUrl: 'edit-post.html',
 })
 export class EditPostPage {
+
+    public barcodeData: any;
 
     public paramsId: string;
 
@@ -19,11 +23,15 @@ export class EditPostPage {
 
     public note: string;
 
+    private scanSub: Subscription;
+
     constructor(
         private common: CommonProvider,
         private fb: FormBuilder,
         private navController: NavController,
         private navParams: NavParams,
+        // private qrScanner: QRScanner,
+        private barcodeScanner: BarcodeScanner,
         private postService: PostsProvider,
     ) {
         this.form = this.fb.group({
@@ -35,6 +43,7 @@ export class EditPostPage {
             created: [Date.now()],
         });
     }
+
 
     ngOnInit() {
     }
@@ -49,6 +58,18 @@ export class EditPostPage {
             }
         }
     }
+
+    scan() {
+        this.barcodeScanner.scan().then((barcodeData) => {
+            this.barcodeData = barcodeData;
+            console.log(barcodeData.text);
+
+            this.form.get('qrcode').setValue(barcodeData.text);
+
+        }, (err) => {
+          console.log(err);
+        });
+      }
 
     // private updatePost(): void {
     //     this.postService
