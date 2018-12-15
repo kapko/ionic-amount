@@ -6,7 +6,10 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { MyApp } from './app.component';
 import { AuthProvider } from '../providers/auth/auth';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { PostsProvider } from '../providers/posts/posts';
+import { Interceptor } from '../providers/interceptor';
+import { CommonProvider } from '../providers/common/common';
 
 @NgModule({
     declarations: [
@@ -26,7 +29,10 @@ import { HttpClientModule } from '@angular/common/http';
         StatusBar,
         SplashScreen,
         { provide: ErrorHandler, useClass: IonicErrorHandler },
-        AuthProvider
+        { provide: HTTP_INTERCEPTORS, multi: true, useClass: Interceptor },
+        AuthProvider,
+        PostsProvider,
+    CommonProvider
     ]
 })
 export class AppModule { }

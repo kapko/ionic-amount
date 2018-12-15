@@ -9,6 +9,7 @@
 <ion-content padding>
 
     <form class="example-form" (submit)="onSubmit()" [formGroup]="form">
+
         <mat-form-field class="example-full-width">
             <input formControlName="name" matInput placeholder="Ваше имя" type="text">
         </mat-form-field>
@@ -19,7 +20,7 @@
 
         <div text-center>
 
-            <button *ngIf="!showSpeener; spinner" type="submit" mat-raised-button color="primary">Вход</button>
+            <button *ngIf="!showSpeener; else spinner" type="submit" mat-raised-button color="primary">Вход</button>
 
             <ng-template #spinner>
                 <button mat-raised-button color="primary">

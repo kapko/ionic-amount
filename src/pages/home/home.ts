@@ -1,25 +1,41 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-
-/**
- * Generated class for the HomePage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import { PostsProvider } from '../../providers/posts/posts';
+import { Observable } from 'rxjs';
+import { IPost } from '../../models/post.model';
 
 @IonicPage()
 @Component({
-  selector: 'page-home',
-  templateUrl: 'home.html',
+    selector: 'page-home',
+    templateUrl: 'home.html',
 })
 export class HomePage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
-  }
+    public posts$: Observable<IPost>;
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad HomePage');
-  }
+    public showLoader = true;
 
+    constructor(
+        public navCtrl: NavController,
+        public navParams: NavParams,
+        private postService: PostsProvider
+    ) {
+        this.getPosts();
+    }
+
+    ionViewDidLoad() {
+        console.log('ionViewDidLoad HomePage');
+    }
+
+    public getPosts(): void {
+        this.posts$ = this.postService.getPosts();
+    }
+
+    public searchEvent(event): void {
+        console.log(event.target.value);
+    }
+
+    public newPost(): void {
+        this.navCtrl.push('EditPostPage', {});
+    }
 }

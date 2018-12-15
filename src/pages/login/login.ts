@@ -33,15 +33,17 @@ export class LoginPage {
     }
 
     public onSubmit(): void {
-        this.showSpeener = true;
-
         if (this.form.valid) {
+            this.showSpeener = true;
+
             this.auth.login(this.form.value)
                 .subscribe(
-                    res => {
+                    token => {
+                        localStorage.setItem('token', token)
                         this.navCtrl.setRoot('HomePage');
                     },
                     err => {
+                        this.showSpeener = false;
                         this.showLoader(`Ошибка: ${err.message}`);
                     }
                 )
