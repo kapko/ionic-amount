@@ -11,3 +11,7 @@ page-home {
     }
 
 }
+
+ion-content.has-refresher > .scroll-content {
+    transition-duration: 0.7s!important;
+}

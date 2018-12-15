@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ItemSliding, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ItemSliding, AlertController, Refresher } from 'ionic-angular';
 import { PostsProvider } from '../../providers/posts/posts';
 import { IPost } from '../../models/post.model';
 import { CommonProvider } from '../../providers/common/common';
@@ -11,6 +11,8 @@ import { take } from 'rxjs/operators';
     templateUrl: 'home.html',
 })
 export class HomePage {
+
+    private refresher: Refresher;
 
     public posts: IPost[];
 
@@ -37,6 +39,11 @@ export class HomePage {
             .pipe(take(1))
             .subscribe(posts => {
                 this.posts = posts;
+
+                if (this.refresher) {
+                    this.refresher.complete();
+                }
+
             });
     }
 
@@ -76,4 +83,9 @@ export class HomePage {
         this.navCtrl.push('EditPostPage', post);
     }
 
+    public doRefresh(refresher: Refresher): void {
+        this.refresher = refresher;
+
+        this.loadPosts();
+    }
 }
