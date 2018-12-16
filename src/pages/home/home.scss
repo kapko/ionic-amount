@@ -3,12 +3,18 @@ page-home {
         color: #fff;
     }
 
-    .add-new {
+    .add-new, .menu {
         float: right;
         font-size: 26px;
         cursor: pointer;
         padding-right: 10px;
     }
+
+    .menu {
+        float: left;
+    }
+
+
 
 }
 

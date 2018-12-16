@@ -1,1 +1,20 @@
-<ion-nav [root]="rootPage"></ion-nav>
+<ion-menu side="left" [content]="mycontent">
+    <ion-content>
+        <ion-list>
+            <ion-item (click)="getHomePage()">
+                <ion-icon name="list" item-start></ion-icon>
+                Продукты
+            </ion-item>
+            <ion-item (click)="getUsers()" >
+                <ion-icon name="contact" item-start></ion-icon>
+                Пользователи
+            </ion-item>
+            <ion-item (click)="logout()">
+                <ion-icon name="exit" item-start></ion-icon>
+                Выйти из приложения
+            </ion-item>
+        </ion-list>
+    </ion-content>
+</ion-menu>
+
+<ion-nav #mycontent [root]="rootPage"></ion-nav>

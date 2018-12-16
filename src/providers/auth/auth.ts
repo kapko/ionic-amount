@@ -13,7 +13,10 @@ export class AuthProvider {
 
     constructor(public http: HttpClient) {
         this.api = env.api;
-        this.currentUser = JSON.parse(localStorage.user);
+
+        if (localStorage.user) {
+            this.currentUser = JSON.parse(localStorage.user);
+        }
     }
 
     public login(data: IUser): Observable<ILogin> {

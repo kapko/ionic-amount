@@ -1,0 +1,34 @@
+<ion-header>
+
+    <ion-navbar color="primary">
+
+        <button ion-button menuToggle>
+            <ion-icon menuToggle color="light" class="menu" name="menu"></ion-icon>
+        </button>
+
+        <ion-title text-center>Пользователи</ion-title>
+
+    </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+    <ion-list>
+        <ion-item-sliding>
+            <ion-item>
+                <h2>Name</h2>
+            </ion-item>
+            <ion-item-options side="left">
+                <button ion-button color="primary">
+                    <ion-icon name="text"></ion-icon>
+                    Удалить
+                </button>
+                <button ion-button color="secondary">
+                    <ion-icon name="call"></ion-icon>
+                    Редактировать
+                </button>
+            </ion-item-options>
+        </ion-item-sliding>
+    </ion-list>
+</ion-content>

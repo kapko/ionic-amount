@@ -1,17 +1,29 @@
 <ion-header>
 
     <ion-navbar color="primary">
-        <ion-title text-center>Продукты</ion-title>
+
+        <button ion-button menuToggle>
+            <ion-icon
+                menuToggle
+                color="light"
+                class="menu"
+                name="menu"></ion-icon>
+        </button>
+
         <ion-icon
             color="light"
             (click)="newPost()"
             class="add-new"
             name="add-circle"></ion-icon>
+
+        <ion-title text-center>Продукты</ion-title>
+        
     </ion-navbar>
 
 </ion-header>
 
 <ion-content padding>
+
     <ion-searchbar (ionInput)="searchEvent($event)"></ion-searchbar>
 
     <ion-refresher (ionRefresh)="doRefresh($event)">
@@ -33,9 +45,10 @@
                 <h3><b>Продано в сомах:</b> {{post.price * post.soldAmount}}</h3>
                 <h3><b>Осталось в сомах:</b> {{post.price * (post.amount - post.soldAmount)}}</h3>
                 <h3><p><i>Дата: {{post.created | date : 'dd.MM.yyyy'}}</i> </p></h3>
+                <h3 *ngIf="post.qrcode"><p>QR: {{post.qrcode}} </p></h3>
             </ion-item>
 
-            <ion-item-options side="right">
+            <ion-item-options *ngIf="user?.role === 1" side="right">
                 <button ion-button (click)="deletePost(post)" color="danger">Удалить</button>
                 <button ion-button (click)="updatePost(post, slidingItem)" color="light">Обновить</button>
             </ion-item-options>

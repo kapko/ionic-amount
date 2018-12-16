@@ -4,6 +4,8 @@ import { PostsProvider } from '../../providers/posts/posts';
 import { IPost, IPostParams } from '../../models/post.model';
 import { CommonProvider } from '../../providers/common/common';
 import { take } from 'rxjs/operators';
+import { AuthProvider } from '../../providers/auth/auth';
+import { IUser } from '../../models/login.model';
 
 @IonicPage()
 @Component({
@@ -18,15 +20,20 @@ export class HomePage {
 
     public posts: IPost[];
 
+    public user: IUser;
+
     public showLoader = true;
 
     constructor(
         public navCtrl: NavController,
         private alertCtrl: AlertController,
         private commonService: CommonProvider,
+        private authService: AuthProvider,
         public navParams: NavParams,
         private postService: PostsProvider
     ) {
+        this.getUser();
+
         this.resetParams();
 
         this.loadPosts();
@@ -60,6 +67,10 @@ export class HomePage {
                 }
 
             });
+    }
+
+    private getUser(): void {
+        this.user = this.authService.currentUser;
     }
 
     private deleteEvent(_id: string): void {
