@@ -1,20 +1,23 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ILogin } from '../../models/login.model';
+import { ILogin, IUser } from '../../models/login.model';
 import { Observable } from 'rxjs/Observable';
 import { env } from '../../env/env';
 
 
 @Injectable()
 export class AuthProvider {
+    public currentUser: IUser;
+
     private api: string
 
     constructor(public http: HttpClient) {
         this.api = env.api;
+        this.currentUser = JSON.parse(localStorage.user);
     }
 
-    public login(data: ILogin): Observable<string> {
-        return this.http.post<string>(`${this.api}login`, data);
+    public login(data: IUser): Observable<ILogin> {
+        return this.http.post<ILogin>(`${this.api}login`, data);
     }
 
 }
