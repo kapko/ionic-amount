@@ -12,12 +12,13 @@
 </ion-header>
 
 <ion-content padding>
-    <!-- <ion-searchbar (ionInput)="searchEvent($event)"></ion-searchbar> -->
+    <ion-searchbar (ionInput)="searchEvent($event)"></ion-searchbar>
+
     <ion-refresher (ionRefresh)="doRefresh($event)">
         <ion-refresher-content></ion-refresher-content>
     </ion-refresher>
 
-    <div text-center *ngIf="!posts?.length">
+    <div text-center *ngIf="showLoader">
         <ion-spinner color="primary" name="bubbles"></ion-spinner>
     </div>
 
@@ -42,5 +43,9 @@
         </ion-item-sliding>
 
     </ion-list>
+
+    <ion-infinite-scroll (ionInfinite)="scrollPaging($event)">
+        <ion-infinite-scroll-content></ion-infinite-scroll-content>
+    </ion-infinite-scroll>
 
 </ion-content>

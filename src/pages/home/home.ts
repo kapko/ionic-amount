@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ItemSliding, AlertController, Refresher } from 'ionic-angular';
 import { PostsProvider } from '../../providers/posts/posts';
-import { IPost } from '../../models/post.model';
+import { IPost, IPostParams } from '../../models/post.model';
 import { CommonProvider } from '../../providers/common/common';
 import { take } from 'rxjs/operators';
 
@@ -14,7 +14,11 @@ export class HomePage {
 
     private refresher: Refresher;
 
+    private params: IPostParams;
+
     public posts: IPost[];
+
+    public showLoader = true;
 
     constructor(
         public navCtrl: NavController,
@@ -23,7 +27,10 @@ export class HomePage {
         public navParams: NavParams,
         private postService: PostsProvider
     ) {
+        this.resetParams();
+
         this.loadPosts();
+
         this.commonService
             .updateHomePage
             .subscribe(isUpdate => {
@@ -33,12 +40,20 @@ export class HomePage {
             });
     }
 
+    private resetParams(): void {
+        this.params = {
+            title: '',
+            page: 0
+        };
+    }
+
     private loadPosts(): void {
         this.postService
-            .getPosts()
+            .getPosts(this.params)
             .pipe(take(1))
             .subscribe(posts => {
                 this.posts = posts;
+                this.showLoader = false;
 
                 if (this.refresher) {
                     this.refresher.complete();
@@ -57,6 +72,10 @@ export class HomePage {
     }
 
     public searchEvent(event): void {
+        this.params.title = event.target.value || '';
+        this.params.page = 0;
+
+        this.loadPosts();
     }
 
     public newPost(): void {
@@ -88,4 +107,19 @@ export class HomePage {
 
         this.loadPosts();
     }
+
+    public scrollPaging(scroll): void {
+        this.params.page ++;
+
+        this.postService
+            .getPosts(this.params)
+            .subscribe(posts => {
+                this.showLoader = false;
+
+                posts.forEach(p => this.posts.push(p));
+
+                scroll.complete();
+            });
+    }
+
 }

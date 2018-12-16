@@ -13,3 +13,8 @@ export interface IPost {
     balancePrice?: number;
     created: Date;
 }
+
+export interface IPostParams {
+    title?: string;
+    page?: number;
+}

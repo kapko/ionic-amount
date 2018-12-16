@@ -1,8 +1,12 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { env } from '../../env/env';
-import { IPost } from '../../models/post.model';
+import { IPost, IPostParams } from '../../models/post.model';
+
+const httpOptions = {
+    headers: new HttpHeaders(),
+};
 
 @Injectable()
 export class PostsProvider {
@@ -13,8 +17,10 @@ export class PostsProvider {
         this.api = env.api;
     }
 
-    public getPosts(): Observable<IPost[]> {
-        return this.http.get<IPost[]>(`${this.api}posts`);
+    public getPosts(params: IPostParams): Observable<IPost[]> {
+        const options = Object.assign({params}, httpOptions);
+
+        return this.http.get<IPost[]>(`${this.api}posts`, options);
     }
 
     public createPost(post: IPost): Observable<IPost> {
