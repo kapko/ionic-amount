@@ -6,6 +6,8 @@
             <ion-icon menuToggle color="light" class="menu" name="menu"></ion-icon>
         </button>
 
+        
+
         <ion-title text-center>Пользователи</ion-title>
 
     </ion-navbar>
@@ -15,20 +17,21 @@
 
 <ion-content padding>
     <ion-list>
-        <ion-item-sliding>
+        <ion-item-sliding *ngFor="let user of users$ | async">
             <ion-item>
-                <h2>Name</h2>
+                <h2>Имя: {{user.name}}</h2>
+                <h3>Роль: {{getRoles(user.role)}}</h3>
             </ion-item>
-            <ion-item-options side="left">
-                <button ion-button color="primary">
-                    <ion-icon name="text"></ion-icon>
-                    Удалить
-                </button>
-                <button ion-button color="secondary">
-                    <ion-icon name="call"></ion-icon>
-                    Редактировать
-                </button>
+
+            <ion-item-options *ngIf="currentUser?.role === 1" side="right">
+                <button ion-button (click)="removeUser(user)" color="primary">Удалить</button>
+                <button ion-button (click)="updateUser(user)" color="secondary">Обновить</button>
             </ion-item-options>
         </ion-item-sliding>
     </ion-list>
+
+    <button
+        ion-button
+        color="light"
+        full (click)="newUser()">Создать пользователя</button>
 </ion-content>

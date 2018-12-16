@@ -10,6 +10,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { PostsProvider } from '../providers/posts/posts';
 import { Interceptor } from '../providers/interceptor';
 import { CommonProvider } from '../providers/common/common';
+import { UsersServiceProvider } from '../providers/users-service/users-service';
 
 @NgModule({
     declarations: [
@@ -33,6 +34,7 @@ import { CommonProvider } from '../providers/common/common';
         AuthProvider,
         PostsProvider,
         CommonProvider,
+    UsersServiceProvider,
     ]
 })
 export class AppModule { }
