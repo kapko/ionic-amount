@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { IonicPage, NavController, NavParams, ItemSliding, AlertController, Refresher } from 'ionic-angular';
 import { PostsProvider } from '../../providers/posts/posts';
 import { IPost, IPostParams } from '../../models/post.model';
@@ -6,17 +6,21 @@ import { CommonProvider } from '../../providers/common/common';
 import { take } from 'rxjs/operators';
 import { AuthProvider } from '../../providers/auth/auth';
 import { IUser } from '../../models/login.model';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @IonicPage()
 @Component({
     selector: 'page-home',
     templateUrl: 'home.html',
 })
-export class HomePage {
+export class HomePage implements OnDestroy {
 
     private refresher: Refresher;
 
     private params: IPostParams;
+
+    private subject = new Subject();
 
     public posts: IPost[];
 
@@ -40,11 +44,17 @@ export class HomePage {
 
         this.commonService
             .updateHomePage
+            .pipe(takeUntil(this.subject))
             .subscribe(isUpdate => {
                 if (isUpdate) {
                     this.loadPosts();
                 };
             });
+    }
+
+    ngOnDestroy() {
+        this.subject.next();
+        this.subject.complete();
     }
 
     private resetParams(): void {

@@ -1,3 +1,19 @@
 page-new-user {
+    .mat-form-field {
+        width: 100%;
+    }
 
+    .example-radio-group {
+        display: inline-flex;
+        margin-bottom: 30px;
+        flex-direction: column;
+      }
+      
+      .example-radio-button {
+        margin: 5px;
+      }
+      
+      .example-selected-value {
+        margin: 15px 0;
+      }
 }

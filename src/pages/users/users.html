@@ -17,15 +17,15 @@
 
 <ion-content padding>
     <ion-list>
-        <ion-item-sliding *ngFor="let user of users$ | async">
+        <ion-item-sliding #slidingItem *ngFor="let user of users$ | async">
             <ion-item>
                 <h2>Имя: {{user.name}}</h2>
                 <h3>Роль: {{getRoles(user.role)}}</h3>
             </ion-item>
 
-            <ion-item-options *ngIf="currentUser?.role === 1" side="right">
+            <ion-item-options *ngIf="currentUser?.role === 1 && user.role !== 1" side="right">
                 <button ion-button (click)="removeUser(user)" color="primary">Удалить</button>
-                <button ion-button (click)="updateUser(user)" color="secondary">Обновить</button>
+                <button ion-button (click)="updateUser(user, slidingItem)" color="secondary">Изменить</button>
             </ion-item-options>
         </ion-item-sliding>
     </ion-list>

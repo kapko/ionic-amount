@@ -1,6 +1,7 @@
 export interface IUser {
     name: string;
     phone: number;
+    role: number;
     _id?: string;
 }
 
@@ -11,6 +12,6 @@ export interface ILogin {
 
 export enum EUserRole {
     Admin = 1,
-    Editer = 2,
-    Seller = 3
+    Provider = 3,
+    Seller = 2
 }

@@ -16,6 +16,8 @@ export interface ErrorInterface {
 export class CommonProvider {
     public updateHomePage = new BehaviorSubject<boolean>(false);
 
+    public updateUsersPage = new BehaviorSubject<boolean>(false);
+
     constructor(public http: HttpClient, private toastCtrl: ToastController) {
     }
 

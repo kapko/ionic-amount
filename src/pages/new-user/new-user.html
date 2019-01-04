@@ -1,18 +1,41 @@
-<!--
-  Generated template for the NewUserPage page.
-
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
 
-  <ion-navbar>
-    <ion-title>new-user</ion-title>
-  </ion-navbar>
+    <ion-navbar>
+        <ion-title>Пользователь</ion-title>
+    </ion-navbar>
 
 </ion-header>
 
-
 <ion-content padding>
+    <form class="example-form" (submit)="onSubmit()" [formGroup]="form">
+
+        <mat-form-field class="example-full-width">
+            <input formControlName="name" matInput placeholder="Имя" type="text">
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width">
+            <input formControlName="phone" matInput placeholder="Телефон" type="tel">
+        </mat-form-field>
+
+        <mat-radio-group class="example-radio-group" formControlName="role">
+            <mat-radio-button class="example-radio-button"
+                *ngFor="let role of roles"
+                [value]="role.value">{{role.name}}
+            </mat-radio-button>
+        </mat-radio-group>
+
+        <div>
+            <button *ngIf="!showSpeener; else spinner" type="submit" mat-raised-button color="primary">
+                {{data ? 'Обновить' : 'Создать'}}
+            </button>
+    
+            <ng-template #spinner>
+                <button mat-raised-button color="primary">
+                    <ion-spinner color="light" name="bubbles"></ion-spinner>
+                </button>
+            </ng-template>
+        </div>
+
+    </form>
 
 </ion-content>
