@@ -46,6 +46,7 @@
                 <h3><b>Осталось в сомах:</b> {{post.price * (post.amount - post.soldAmount)}}</h3>
                 <h3><p><i>Дата: {{post.created | date : 'dd.MM.yyyy'}}</i> </p></h3>
                 <h3 *ngIf="post.qrcode"><p>QR: {{post.qrcode}} </p></h3>
+                <selling-button *ngIf="post.amount" [post]="post"></selling-button>
             </ion-item>
 
             <ion-item-options *ngIf="user?.role === 1" side="right">

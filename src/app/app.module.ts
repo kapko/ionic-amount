@@ -11,6 +11,7 @@ import { PostsProvider } from '../providers/posts/posts';
 import { Interceptor } from '../providers/interceptor';
 import { CommonProvider } from '../providers/common/common';
 import { UsersServiceProvider } from '../providers/users-service/users-service';
+import { ProvidersSoldProvider } from '../providers/providers-sold/providers-sold';
 
 @NgModule({
     declarations: [
@@ -35,6 +36,7 @@ import { UsersServiceProvider } from '../providers/users-service/users-service';
         PostsProvider,
         CommonProvider,
     UsersServiceProvider,
+    ProvidersSoldProvider,
     ]
 })
 export class AppModule { }

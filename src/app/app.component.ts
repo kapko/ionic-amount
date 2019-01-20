@@ -46,5 +46,10 @@ export class MyApp {
         this.menuController.close();
     }
 
+    public getSold(): void {
+        this.app.getActiveNav().setRoot('SoldPage');
+        this.menuController.close();
+    }
+
 }
 

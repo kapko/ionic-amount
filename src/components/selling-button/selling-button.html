@@ -1,0 +1,9 @@
+<div>
+    <input type="tel" placeholder="количество" [(ngModel)]="sellingCount">
+</div>
+
+<button ion-button *ngIf="!showSpeener; else spinner" [disabled]="!sellingCount" (click)="toSell()" color="danger">Продать</button>
+
+<ng-template #spinner>
+    <button mat-raised-button color="primary">Загрузка ...</button>
+</ng-template>

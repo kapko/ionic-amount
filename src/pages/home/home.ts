@@ -125,6 +125,7 @@ export class HomePage implements OnDestroy {
 
     public doRefresh(refresher: Refresher): void {
         this.refresher = refresher;
+        this.params.page = 0;
 
         this.loadPosts();
     }

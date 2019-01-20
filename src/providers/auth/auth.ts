@@ -23,4 +23,8 @@ export class AuthProvider {
         return this.http.post<ILogin>(`${this.api}login`, data);
     }
 
+    public getUser(userId: string): Observable<IUser> {
+        return this.http.get<IUser>(`${this.api}users/${userId}`);
+    }
+
 }

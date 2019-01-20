@@ -3,6 +3,7 @@ import { IonicPageModule } from 'ionic-angular';
 import { HomePage } from './home';
 
 import { MatButtonModule, MatCardModule, MatTabsModule, MatChipsModule, MatIconModule } from "@angular/material";
+import { ComponentsModule } from '../../components/components.module';
 
 @NgModule({
     declarations: [
@@ -14,7 +15,8 @@ import { MatButtonModule, MatCardModule, MatTabsModule, MatChipsModule, MatIconM
         MatCardModule,
         MatTabsModule,
         MatChipsModule,
-        MatIconModule
+        MatIconModule,
+        ComponentsModule
     ],
     exports: [
         HomePage

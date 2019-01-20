@@ -1,0 +1,58 @@
+<ion-header>
+    <!-- <ion-navbar>
+        <ion-title>Продажи</ion-title>
+    </ion-navbar> -->
+    <ion-navbar color="primary">
+
+        <button ion-button menuToggle>
+            <ion-icon
+                menuToggle
+                color="light"
+                class="menu"
+                name="menu"></ion-icon>
+        </button>
+
+        <ion-title text-center>Продажи</ion-title>
+        
+    </ion-navbar>
+
+</ion-header>
+
+<ion-content padding>
+
+    <ion-searchbar (ionInput)="searchEvent($event)"></ion-searchbar>
+
+    <ion-refresher (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
+
+    <div text-center *ngIf="showLoader">
+        <ion-spinner color="primary" name="bubbles"></ion-spinner>
+    </div>
+
+    <ion-list>
+        <ion-item-sliding #slidingItem *ngFor="let post of soldData">
+            <ion-item>
+                <h2 text-center>{{post.title}}</h2>
+                <h4>
+                    <p><b>Цена:</b> {{post.price}} <b>Кол-во:</b> {{post.count}}</p>
+                </h4>
+                <h3>
+                    <p><b>Продавец:</b> <user [userId]="post.seller"></user></p>
+                    
+                </h3>
+                <h3>
+                    <p><b>Дата: </b><i>{{post.created | date : 'dd.MM.yyyy'}}</i></p>
+                </h3>
+                <h3 *ngIf="post.qrcode">
+                    <p>QR: {{post.qrcode}} </p>
+                </h3>
+            </ion-item>
+        </ion-item-sliding>
+    </ion-list>
+
+    <ion-infinite-scroll (ionInfinite)="scrollPaging($event)">
+        <ion-infinite-scroll-content></ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+
+</ion-content>
