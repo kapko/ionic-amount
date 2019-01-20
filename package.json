@@ -8,7 +8,7 @@
     "clean": "ionic-app-scripts clean",
     "build": "ionic-app-scripts build",
     "lint": "ionic-app-scripts lint",
-    "start": "ionic serve --port=3232",
+    "start": "node server.js",
     "ionic:build": "ionic-app-scripts build",
     "ionic:serve": "ionic-app-scripts serve",
     "postinstall": "ionic-app-scripts build"
@@ -49,6 +49,7 @@
   },
   "devDependencies": {
     "@ionic/app-scripts": "^3.2.1",
+    "express": "^4.16.4",
     "typescript": "2.4.2"
   },
   "description": "An Ionic project",
@@ -73,5 +74,9 @@
       "ios",
       "android"
     ]
+  },
+  "engines": {
+    "node": "10.4.1",
+    "npm": "6.2.0"
   }
 }
